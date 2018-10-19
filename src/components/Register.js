@@ -49,9 +49,10 @@ export default class Register extends Component {
 	render() {
     return (
       <Col xs={6} md={4}>
+      	<ControlLabel>Registration Page</ControlLabel>
+
   			<form onSubmit = {this.handleSubmit}>
-          <FormGroup controlId="formControlEmail">
-            <ControlLabel>Email</ControlLabel>
+          <FormGroup controlId="email">
             <FormControl
               autoFocus
               type="email"
@@ -60,8 +61,24 @@ export default class Register extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
-          <FormGroup controlId="formControlPassword">
-            <ControlLabel>Password</ControlLabel>
+          <FormGroup controlId="firstName">
+            <FormControl
+              type="text"
+              placeholder = "Enter your firstName"
+              value={this.state.firstName}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup controlId="lastName">
+            <FormControl
+              autoFocus
+              type="text"
+              placeholder = "Enter your lastName"
+              value={this.state.lastName}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup controlId="password">
             <FormControl
               type="password"
               placeholder = "Enter your password"
