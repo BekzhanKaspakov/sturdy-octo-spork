@@ -1,26 +1,69 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route } from 'react-router-dom';
+// import { connect } from 'react-redux';
+
+// components
+import Login from './components/Login';
+import Register from './components/Register';
+import Main from './components/Main';
+import Auth from './components/Auth';
+import NavBar from './components/NavBar'
 
 class App extends Component {
+	constructor(props) {
+    super(props);
+    this.state = {
+      currentUser: null,
+      isAuthenticated: false,
+      isLoading: false
+    }
+		this.handleLogout = this.handleLogout.bind(this);
+    this.loadCurrentUser = this.loadCurrentUser.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+	}
+
+	loadCurrentUser() {
+    this.setState({
+      isLoading: true
+    });
+    // getCurrentUser()
+    // .then(response => {
+    //   this.setState({
+    //     currentUser: response,
+    //     isAuthenticated: true,
+    //     isLoading: false
+    //   });
+    // }).catch(error => {
+    //   this.setState({
+    //     isLoading: false
+    //   });
+    // });
+  }
+
+	handleLogin() {
+	    // this.loadCurrentUser();
+	    this.props.history.push("/");
+	  }
+
+	handleLogout(redirectTo="/") {
+	    localStorage.removeItem('ACCESS_TOKEN');
+			this.setState({
+      	currentUser: null,
+      	isAuthenticated: false
+    	});
+	}
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+			<BrowserRouter>
+			<div>
+				<NavBar isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} onLogout={this.handleLogout} />
+				<Route exact path="/" render = { props => <Main {...props} />} />
+				<Route exact path="/authenticate" render = { props => <Auth {...props} />} />
+				<Route exact path='/login' render = { props => <Login onLogin={this.handleLogin} {...props} />} />
+				<Route exact path='/register' render = { props => <Register {...props} />} />
+			</div>
+			</BrowserRouter>
     );
   }
 }
