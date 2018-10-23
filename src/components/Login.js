@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import { Col, form, FormGroup, FormControl, HelpBlock, ControlLabel, Button } from 'react-bootstrap';
 // import axios from 'axios';
 import { login } from '../api/utils';
+// import { Form, Input, Button, Icon, notification } from 'antd';
+import { ACCESS_TOKEN } from '../api/const';
+
 
 export default class Login extends Component {
 	constructor(props) {
@@ -28,16 +31,31 @@ export default class Login extends Component {
 		e.preventDefault();
 
 		const user = {
-			Username: this.state.email,
-			Password: this.state.password
+			usernameOrEmail: this.state.email,
+			password: this.state.password
 		}
-		var response = await login(user);
-		if(response.success) {
-			localStorage.setItem('ACCESS_TOKEN', response.accessToken);
-      this.props.onLogin();
-		} else {
-			console.log(response.message);
+		
+
+		// try {
+		//     var response = await login(user);
+		//     localStorage.setItem('ACCESS_TOKEN', response.response.accessToken);
+  //     		this.props.onLogin();
+		// } catch(e) {
+		//     console.log(e);
+		// }
+
+		// if(response.success) {
+		// const loginRequest = Object.assign({}, values);
+		try {
+			const response = await login(user);
+			//localStorage.setItem('accessToken', response.accessToken);
+			console.log('hello bitch');
+			// this.props.onLogin();
+		} catch (err) {
+			console.log(err);
+			console.log("hkkgkSHIT IS NOT REAL");
 		}
+		
 
 		// console.log(user);
 		// const result = await axios.post("http://85.117.127.113:8080/api/auth/login", { user } );
@@ -50,7 +68,7 @@ export default class Login extends Component {
 		// 	// localStorage.setItem("token", )
 		//
 		// }
-  }
+	}
 
   FieldGroup = ({ id, label, help, ...props })  => {
     return (
